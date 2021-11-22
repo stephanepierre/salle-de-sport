@@ -6,6 +6,8 @@ const app = express();
 const models = require('./models/index');
 app.set('models', models);
 
+//on importe le middleware
+const getRoleMiddleware = require('./utils/getRoleMiddleware');
 
 
 //.................................mongoose.......................
@@ -17,7 +19,7 @@ mongoose.connect('mongodb://localhost/sportCenters', {
     useUnifiedTopology: true,
 }, (err) => {
     if (!err) {
-        console.log('MongoDB Connection Succeeded.')
+        console.log('MongoDB Connection Réussie!!!')
     } else {
         console.log('Error in DB connection: ' + err)
     }
@@ -33,6 +35,8 @@ app.listen (3000, () => {
 
 //.......................................routes.............................
 //on crée les routes
-const userRoute = require("./routes/user");     //route localhost:3000/user
+const userRoute = require("./routes/user");     //route localhost:3000/users
+app.use(getRoleMiddleware);
+
 userRoute(app);    
 
