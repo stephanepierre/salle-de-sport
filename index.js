@@ -35,8 +35,12 @@ app.listen (3000, () => {
 
 //.......................................routes.............................
 //on crée les routes
-const userRoute = require("./routes/user");     //route localhost:3000/users
+const userRoute = require("./routes/user");     //route localhost:3000/user
+const customerRoute = require("./routes/customer"); //route localhost:3000/customer
+const coachRoute = require('./routes/coach'); //route localhost:3000/coach
 app.use(getRoleMiddleware);
 
-userRoute(app);    
+userRoute(app);   
+customerRoute(app);  
+coachRoute(app);
 

@@ -23,7 +23,6 @@ async function userCreate(req, res) {
         const {token, salt, hash} = encryptPassword(req.body.password);
         //fin de création du MDP
 
-        console.log(req.role)
         //on vérifie que son role est bien manager sinon il a pas le droit de créer
         if (req.role !== 'manager') {
             return res.json("Vous n'êtes pas autoriser à créer un utilisateur")
@@ -67,6 +66,12 @@ async function userDelete(req, res) {
         if (!req.body._id) {
             return res.json("_id manquant");
         }
+
+        //on vérifie que son role est bien manager sinon il a pas le droit de créer
+        if (req.role !== 'manager') {
+            return res.json("Vous n'êtes pas autoriser à supprimer un utilisateur")
+        }
+        
         const User = req.app.get('models').User;
         const ToDeleteUser = await User.findById(req.body._id);
         await ToDeleteUser.deleteOne();
@@ -81,6 +86,12 @@ async function userUpdate(req, res) {
         if (!req.body._id || !req.body.toModify) {
             return res.json("_id ou champs manquant(s)");
         }
+
+        //on vérifie que son role est bien manager sinon il a pas le droit de créer
+        if (req.role !== 'manager') {
+            return res.json("Vous n'êtes pas autoriser à modifier un utilisateur")
+        }
+        
         const User = req.app.get('models').User;
 
         //on cherche l'objet à modifier par son ID
